@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql": "^11.0.1"
+  },
+  "devDependencies": {
+    "@types/mssql": "^9.1.6",
+    "@types/node": "^18.19.70",
+    "typescript": "^5.7.3"
+  }
+}
