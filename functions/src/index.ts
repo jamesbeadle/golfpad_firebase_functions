@@ -19,7 +19,7 @@ app.get("/golf-courses", async (req, res) => {
 app.get('/golfers', async (req, res) => {
   try {
     const pool = await getPool();
-    const result = await pool.request().query('SELECT TOP 10 * FROM Golfers');
+    const result = await pool.request().query('SELECT TOP 100 * FROM Golfers');
     res.json(result.recordset);
   } catch (err) {
     logger.error('Error running query:', err);

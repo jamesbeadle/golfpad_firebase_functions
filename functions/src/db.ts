@@ -1,5 +1,4 @@
 import * as sql from 'mssql';
-import { defineString } from 'firebase-functions/params';
 
 export interface DBConfig {
   user: string;
@@ -14,10 +13,10 @@ export interface DBConfig {
 }
 
 const dbConfig: DBConfig = {
-  user: `${defineString('SQL_USER')}`,
-  password: `${defineString('SQL_PASSWORD')}`,
-  server: `${defineString('SQL_HOST')}`,
-  database: `${defineString('SQL_DBNAME')}`,
+  user: process.env.DB_USER ?? "",
+  password: process.env.DB_PASS ?? "",
+  server: process.env.INSTANCE_HOST ?? "",
+  database: process.env.DB_NAME ?? "",
   port: 1433,
   options: {
     encrypt: true,
@@ -28,6 +27,7 @@ const dbConfig: DBConfig = {
 let pool: sql.ConnectionPool | undefined;
 
 export async function getPool(): Promise<sql.ConnectionPool> {
+    
   if (!pool) {
     pool = await sql.connect(dbConfig);
     console.log('Connected to SQL Server');
