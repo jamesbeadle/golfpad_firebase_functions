@@ -3,7 +3,7 @@ import express from "express";
 import * as logger from "firebase-functions/logger";
 
 import { initializeApp, getApps } from "firebase-admin/app";
-import { getPool } from "./db";
+const { connectWithConnector } = require('./db.js');
 
 if (!getApps().length) {
   initializeApp();
@@ -18,8 +18,9 @@ app.get("/golf-courses", async (req, res) => {
 
 app.get('/golfers', async (req, res) => {
   try {
-    const pool = await getPool();
-    const result = await pool.request().query('SELECT TOP 100 * FROM Golfers');
+    const config = {};
+    const connection = await connectWithConnector(config);  
+    const result = await connection.request().query('SELECT TOP 100 * FROM Golfers');
     res.json(result.recordset);
   } catch (err) {
     logger.error('Error running query:', err);
